@@ -1,0 +1,31 @@
+# Never commit secret values or generated backup payloads.
+.env
+.env.*
+!.env.example
+*.dotenv
+*.secret
+*.secrets
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.csr
+*.dump
+*.sql
+*.tar
+*.tar.gz
+*.tar.enc
+*.enc
+*.partial
+*.tmp
+
+# Local/editor noise.
+.DS_Store
+.idea/
+.vscode/
+
+# Runtime state.
+backups/
+state/
+logs/

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.joshka.infisical-backup</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>3</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/joshka/services/infisical</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>INFISICAL_BACKUP_LOCAL_KEEP</key>
+    <string>7</string>
+    <key>INFISICAL_BACKUP_REMOTE_KEEP</key>
+    <string>14</string>
+    <key>INFISICAL_BACKUP_REMOTE</key>
+    <string>dev</string>
+    <key>INFISICAL_BACKUP_REMOTE_DIR</key>
+    <string>backups/infisical</string>
+  </dict>
+
+  <key>StandardOutPath</key>
+  <string>/Users/joshka/Library/Logs/infisical-backup.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/joshka/Library/Logs/infisical-backup.err.log</string>
+</dict>
+</plist>
