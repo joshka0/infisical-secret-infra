@@ -44,16 +44,18 @@ Report only:
 7. Add repo guidance for `infisical run`.
 8. Report key counts, destination path, and any suspected typo key names.
 
-## Local Paths
+## Recommended Local Paths
 
 ```text
-/Users/joshka/.vault
-/Users/joshka/.vault/AGENTS.md
-/Users/joshka/services/infisical
-/Users/joshka/.vault/scripts/infisical-import-dotenv.sh
-/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh
+~/.vault
+~/.vault/AGENTS.md
+~/services/infisical
+~/.vault/scripts/infisical-import-dotenv.sh
+~/.vault/scripts/backup-infisical-if-changed.sh
 ```
 
-The local vault AGENTS file is the machine-specific operating contract. If it
+The local vault `AGENTS.md` is the machine-specific operating contract. If it
 disagrees with this repo, follow the local vault file first and then update this
-repo.
+repo or local override.
+
+For a new machine, start with [setup.md](setup.md).

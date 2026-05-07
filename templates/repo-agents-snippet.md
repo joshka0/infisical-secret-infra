@@ -21,4 +21,4 @@ Rules:
 - Discover required key names from code/config.
 - Check key presence with `present` / `missing` only.
 - If a new `.env` appears, import it with
-  `/Users/joshka/.vault/scripts/infisical-import-dotenv.sh`.
+  `~/.vault/scripts/infisical-import-dotenv.sh`.

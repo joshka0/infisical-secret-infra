@@ -72,7 +72,7 @@ infisical run --env dev --path /repos/personal/example -- <command>
 ## When Handling Backups
 
 - Backups are encrypted before retention or upload.
-- Upload target is `dev:backups/infisical`.
+- Upload target is operator-configured, for example `dev:backups/infisical`.
 - Only `*.tar.enc` and redacted `*.report.txt` leave the machine.
 - The backup passphrase must be copied into the password vault and must not be
   printed.

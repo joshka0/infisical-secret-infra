@@ -5,8 +5,9 @@ input="${1:-}"
 output="${2:-}"
 force="${3:-}"
 domain="${INFISICAL_API_URL:-http://127.0.0.1:18080}"
-control_dir="/Users/joshka/.vault/umbrella/home-root"
-crypto_script="/Users/joshka/.vault/scripts/vault-file-crypto.mjs"
+vault_root="${VAULT_ROOT:-${HOME}/.vault}"
+control_dir="${INFISICAL_CONTROL_DIR:-$vault_root/umbrella/home-root}"
+crypto_script="${VAULT_FILE_CRYPTO_SCRIPT:-$vault_root/scripts/vault-file-crypto.mjs}"
 
 if [[ -z "$input" || -z "$output" ]]; then
   echo "Usage: $0 <input.enc> <output> [--force]" >&2

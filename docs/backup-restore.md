@@ -10,19 +10,20 @@ Defaults:
 schedule: 03:00 local time
 local retention: 7 encrypted archives
 remote retention: 14 encrypted archives
-remote: dev:backups/infisical
+remote: operator-configured, for example dev:backups/infisical
 ```
 
 The script is:
 
 ```text
-/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh
+~/.vault/scripts/backup-infisical-if-changed.sh
 ```
 
 The launchd job is:
 
 ```text
-/Users/joshka/Library/LaunchAgents/com.joshka.infisical-backup.plist
+macOS: ~/Library/LaunchAgents/com.example.infisical-backup.plist
+Linux: ~/.config/systemd/user/infisical-backup.timer
 ```
 
 ## Backup Contents
@@ -53,25 +54,25 @@ only inside Infisical.
 Dry run:
 
 ```sh
-/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh --dry-run
+~/.vault/scripts/backup-infisical-if-changed.sh --dry-run
 ```
 
 Create if changed and upload if `dev` is reachable:
 
 ```sh
-/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh
+~/.vault/scripts/backup-infisical-if-changed.sh
 ```
 
 Force a fresh encrypted archive:
 
 ```sh
-/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh --force
+~/.vault/scripts/backup-infisical-if-changed.sh --force
 ```
 
 Skip upload:
 
 ```sh
-/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh --no-remote
+~/.vault/scripts/backup-infisical-if-changed.sh --no-remote
 ```
 
 ## Restore Shape

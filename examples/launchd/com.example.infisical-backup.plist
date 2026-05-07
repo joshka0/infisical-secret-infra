@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.joshka.infisical-backup</string>
+  <string>com.example.infisical-backup</string>
 
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/joshka/.vault/scripts/backup-infisical-if-changed.sh</string>
+    <string>__HOME__/.vault/scripts/backup-infisical-if-changed.sh</string>
   </array>
 
   <key>StartCalendarInterval</key>
@@ -19,12 +19,16 @@
   </dict>
 
   <key>WorkingDirectory</key>
-  <string>/Users/joshka/services/infisical</string>
+  <string>__HOME__/services/infisical</string>
 
   <key>EnvironmentVariables</key>
   <dict>
     <key>PATH</key>
     <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>VAULT_ROOT</key>
+    <string>__HOME__/.vault</string>
+    <key>INFISICAL_SERVICE_DIR</key>
+    <string>__HOME__/services/infisical</string>
     <key>INFISICAL_BACKUP_LOCAL_KEEP</key>
     <string>7</string>
     <key>INFISICAL_BACKUP_REMOTE_KEEP</key>
@@ -36,8 +40,8 @@
   </dict>
 
   <key>StandardOutPath</key>
-  <string>/Users/joshka/Library/Logs/infisical-backup.log</string>
+  <string>__HOME__/.vault/logs/infisical-backup.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/joshka/Library/Logs/infisical-backup.err.log</string>
+  <string>__HOME__/.vault/logs/infisical-backup.err.log</string>
 </dict>
 </plist>

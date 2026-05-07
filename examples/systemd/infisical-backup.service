@@ -1,0 +1,14 @@
+[Unit]
+Description=Encrypted Infisical backup
+Wants=infisical-backup.timer
+
+[Service]
+Type=oneshot
+Environment=VAULT_ROOT=%h/.vault
+Environment=INFISICAL_SERVICE_DIR=%h/services/infisical
+Environment=INFISICAL_BACKUP_LOCAL_KEEP=7
+Environment=INFISICAL_BACKUP_REMOTE_KEEP=14
+Environment=INFISICAL_BACKUP_REMOTE=
+Environment=INFISICAL_BACKUP_REMOTE_DIR=backups/infisical
+WorkingDirectory=%h/services/infisical
+ExecStart=%h/.vault/scripts/backup-infisical-if-changed.sh

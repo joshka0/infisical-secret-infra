@@ -27,24 +27,24 @@ up the self-hosted Infisical deployment.
 - SSH private keys.
 - API tokens.
 
-## Local Source Of Truth
+## Recommended Local Layout
 
-On the Mac, the live vault control plane is:
+On each machine, the live vault control plane should be:
 
 ```text
-/Users/joshka/.vault
+~/.vault
 ```
 
-The local Infisical UI is:
+The default local Infisical UI is:
 
 ```text
 http://127.0.0.1:18080
 ```
 
-The self-hosted service checkout is:
+The recommended self-hosted service checkout is:
 
 ```text
-/Users/joshka/services/infisical
+~/services/infisical
 ```
 
 ## Current Defaults
@@ -54,14 +54,16 @@ The self-hosted service checkout is:
 - Secret-bearing files under `~/.vault` outside Infisical must be encrypted.
 - Nightly Infisical backups run at `03:00`.
 - Backups keep `7` local encrypted archives and `14` remote encrypted archives.
-- Remote encrypted backup target is `dev:backups/infisical`.
+- Remote encrypted backup target is operator-configured, for example
+  `dev:backups/infisical`.
 
 ## Start Here
 
-1. Read [AGENTS.md](AGENTS.md).
-2. For repo migrations, use [docs/migration-runbook.md](docs/migration-runbook.md).
-3. For backup operations, use [docs/backup-restore.md](docs/backup-restore.md).
-4. For agent behavior, use [docs/agent-guide.md](docs/agent-guide.md).
+1. New machine setup: [setup.md](setup.md).
+2. Agent operating rules: [AGENTS.md](AGENTS.md).
+3. Repo migrations: [docs/migration-runbook.md](docs/migration-runbook.md).
+4. Backup operations: [docs/backup-restore.md](docs/backup-restore.md).
+5. Agent behavior: [docs/agent-guide.md](docs/agent-guide.md).
 
 ## Safety Standard
 

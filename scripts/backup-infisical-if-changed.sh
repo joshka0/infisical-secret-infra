@@ -5,8 +5,8 @@ umask 077
 
 PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
-vault_root="${VAULT_ROOT:-/Users/joshka/.vault}"
-service_dir="${INFISICAL_SERVICE_DIR:-/Users/joshka/services/infisical}"
+vault_root="${VAULT_ROOT:-${HOME}/.vault}"
+service_dir="${INFISICAL_SERVICE_DIR:-${HOME}/services/infisical}"
 compose_file="${INFISICAL_COMPOSE_FILE:-$service_dir/compose.yaml}"
 env_file="${INFISICAL_ENV_FILE:-$service_dir/.env}"
 backup_root="${INFISICAL_BACKUP_ROOT:-$vault_root/infisical/backups}"
@@ -14,10 +14,10 @@ state_dir="$backup_root/state"
 crypto_script="${INFISICAL_BACKUP_CRYPTO_SCRIPT:-$vault_root/scripts/vault-file-crypto.mjs}"
 
 keychain_service="${INFISICAL_BACKUP_KEYCHAIN_SERVICE:-infisical-backup-passphrase}"
-keychain_account="${INFISICAL_BACKUP_KEYCHAIN_ACCOUNT:-${USER:-joshka}}"
+keychain_account="${INFISICAL_BACKUP_KEYCHAIN_ACCOUNT:-${USER:-$(id -un 2>/dev/null || printf user)}}"
 local_keep="${INFISICAL_BACKUP_LOCAL_KEEP:-7}"
 remote_keep="${INFISICAL_BACKUP_REMOTE_KEEP:-14}"
-remote="${INFISICAL_BACKUP_REMOTE:-dev}"
+remote="${INFISICAL_BACKUP_REMOTE:-}"
 remote_dir="${INFISICAL_BACKUP_REMOTE_DIR:-backups/infisical}"
 
 force=0
@@ -35,7 +35,7 @@ changed since the last successful encrypted backup.
 Passphrase source, in order:
   1. INFISICAL_BACKUP_PASSPHRASE
   2. INFISICAL_BACKUP_PASSPHRASE_FILE
-  3. macOS Keychain item infisical-backup-passphrase
+  3. macOS Keychain item infisical-backup-passphrase, on macOS
 
 The passphrase is never printed.
 USAGE
@@ -95,10 +95,14 @@ load_passphrase() {
     return 0
   fi
 
-  security find-generic-password \
-    -a "$keychain_account" \
-    -s "$keychain_service" \
-    -w 2>/dev/null
+  if command -v security >/dev/null 2>&1; then
+    security find-generic-password \
+      -a "$keychain_account" \
+      -s "$keychain_service" \
+      -w 2>/dev/null
+  else
+    return 1
+  fi
 }
 
 require_files() {
@@ -227,6 +231,11 @@ upload_remote() {
     return 0
   fi
 
+  if [ -z "$remote" ]; then
+    printf 'not_configured'
+    return 0
+  fi
+
   if ! ssh -o BatchMode=yes -o ConnectTimeout=8 "$remote" "mkdir -p '$remote_dir'" >/dev/null 2>&1; then
     printf 'unreachable'
     return 0
@@ -298,7 +307,6 @@ main() {
   need_command tar
   need_command awk
   need_command sed
-  need_command security
   require_files
 
   mkdir -p "$backup_root" "$state_dir"

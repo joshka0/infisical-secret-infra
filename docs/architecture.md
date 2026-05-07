@@ -16,7 +16,7 @@ ssh dev      -> remote encrypted backup storage
 The self-hosted Infisical instance runs from:
 
 ```text
-/Users/joshka/services/infisical
+~/services/infisical
 ```
 
 The service exposes the UI locally at:
@@ -33,9 +33,9 @@ supporting state and should not be treated as the primary backup target.
 Preferred path mapping:
 
 ```text
-/Users/joshka/repos/personal/foo -> /repos/personal/foo
-/Users/joshka/repos/foxway/foo   -> /repos/foxway/foo
-/Users/joshka/repos/mobiles/foo  -> /repos/mobiles/foo
+~/repos/personal/foo -> /repos/personal/foo
+~/repos/foxway/foo   -> /repos/foxway/foo
+~/repos/mobiles/foo  -> /repos/mobiles/foo
 home-level secrets               -> /home
 migrated raw files               -> /migration/...
 ```

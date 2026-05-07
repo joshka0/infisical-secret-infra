@@ -7,8 +7,8 @@ Usage:
   infisical-import-dotenv.sh <dotenv-file> [infisical-path] [environment] [--move-source-to-vault]
 
 Examples:
-  /Users/joshka/.vault/scripts/infisical-import-dotenv.sh .env /repos/personal/praze dev --move-source-to-vault
-  /Users/joshka/.vault/scripts/infisical-import-dotenv.sh /path/to/repo/.env
+  ~/.vault/scripts/infisical-import-dotenv.sh .env /repos/personal/example dev --move-source-to-vault
+  ~/.vault/scripts/infisical-import-dotenv.sh /path/to/repo/.env
 
 Safety:
   - Does not print secret values.
@@ -22,8 +22,9 @@ secret_path="${2:-}"
 environment="${3:-dev}"
 move_source="0"
 domain="${INFISICAL_API_URL:-http://127.0.0.1:18080}"
-control_dir="/Users/joshka/.vault/umbrella/home-root"
-vault_root="/Users/joshka/.vault"
+vault_root="${VAULT_ROOT:-${HOME}/.vault}"
+control_dir="${INFISICAL_CONTROL_DIR:-$vault_root/umbrella/home-root}"
+repo_root_base="${REPOS_ROOT:-$HOME/repos}"
 
 for arg in "${@:4}"; do
   case "$arg" in
@@ -82,16 +83,16 @@ infer_secret_path() {
   done
 
   case "$repo_root" in
-    /Users/joshka/repos/personal/*)
+    "$repo_root_base"/personal/*)
       printf '/repos/personal/%s' "$(basename "$repo_root")"
       ;;
-    /Users/joshka/repos/foxway/*)
+    "$repo_root_base"/foxway/*)
       printf '/repos/foxway/%s' "$(basename "$repo_root")"
       ;;
-    /Users/joshka/repos/mobiles/*)
+    "$repo_root_base"/mobiles/*)
       printf '/repos/mobiles/%s' "$(basename "$repo_root")"
       ;;
-    /Users/joshka/repos/githubs/*)
+    "$repo_root_base"/githubs/*)
       printf '/repos/githubs/%s' "$(basename "$repo_root")"
       ;;
     *)
@@ -126,7 +127,7 @@ fi
 
 sha256="$(shasum -a 256 "$abs_env_file" | awk '{print $1}')"
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-safe_name="$(printf '%s' "$abs_env_file" | sed 's#^/Users/joshka/##; s#[^A-Za-z0-9._-]#-#g')"
+safe_name="$(printf '%s' "$abs_env_file" | sed "s#^${HOME}/##; s#[^A-Za-z0-9._-]#-#g")"
 staging_dir="$vault_root/staging/dotenv-imports"
 imports_dir="$vault_root/imports"
 mkdir -p "$staging_dir" "$imports_dir"

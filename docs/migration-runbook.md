@@ -13,9 +13,9 @@ or leaving plaintext behind.
 Map repos to Infisical paths:
 
 ```text
-/Users/joshka/repos/personal/foo -> /repos/personal/foo
-/Users/joshka/repos/foxway/foo   -> /repos/foxway/foo
-/Users/joshka/repos/mobiles/foo  -> /repos/mobiles/foo
+~/repos/personal/foo -> /repos/personal/foo
+~/repos/foxway/foo   -> /repos/foxway/foo
+~/repos/mobiles/foo  -> /repos/mobiles/foo
 ```
 
 Use an explicit path if a secret belongs somewhere narrower or broader.
@@ -25,7 +25,7 @@ Use an explicit path if a secret belongs somewhere narrower or broader.
 Run:
 
 ```sh
-/Users/joshka/.vault/scripts/infisical-import-dotenv.sh \
+~/.vault/scripts/infisical-import-dotenv.sh \
   /path/to/repo/.env \
   /repos/personal/example \
   dev \
@@ -45,7 +45,7 @@ This helper should:
 Presence check pattern:
 
 ```sh
-cd /Users/joshka/.vault/umbrella/home-root
+cd ~/.vault/umbrella/home-root
 infisical run --env dev --path /repos/personal/example -- sh -lc '
 for key in DATABASE_URL API_TOKEN EXPO_PAT; do
   eval "value=\${$key:-}"
