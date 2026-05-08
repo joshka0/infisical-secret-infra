@@ -1,7 +1,5 @@
 # Infisical Secret Infrastructure
 
-Private repo for the local Infisical-backed secret-management setup.
-
 This repo is a sanitized control-plane guide. It documents how agents and humans
 should migrate repo `.env` files into Infisical, run local workflows without
 printing secrets, encrypt any unavoidable secret-bearing files at rest, and back
