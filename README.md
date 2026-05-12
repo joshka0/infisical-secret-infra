@@ -52,6 +52,8 @@ The recommended self-hosted service checkout is:
 - Infisical is the source of truth for app/runtime secrets.
 - Agent Vault is for brokered agent HTTP access, not repo dotenv injection.
 - Secret-bearing files under `~/.vault` outside Infisical must be encrypted.
+- The self-hosted Infisical bootstrap `.env` should be encrypted at rest and
+  decrypted only to a private temporary file for Docker Compose.
 - Nightly Infisical backups run at `03:00`.
 - Backups keep `7` local encrypted archives and `14` remote encrypted archives.
 - Remote encrypted backup target is operator-configured, for example
@@ -64,6 +66,23 @@ The recommended self-hosted service checkout is:
 3. Repo migrations: [docs/migration-runbook.md](docs/migration-runbook.md).
 4. Backup operations: [docs/backup-restore.md](docs/backup-restore.md).
 5. Agent behavior: [docs/agent-guide.md](docs/agent-guide.md).
+
+## Infisical Bootstrap Env
+
+The live Infisical service needs bootstrap secrets before Infisical itself is
+available. Do not encrypt that bootstrap `.env` with a key that lives only
+inside Infisical.
+
+Recommended macOS flow:
+
+```sh
+~/.vault/scripts/infisical-encrypt-bootstrap-env.sh
+~/.vault/scripts/infisical-compose-secure-env.sh up -d
+```
+
+The wrapper decrypts the encrypted bootstrap env into a private temporary file,
+runs Docker Compose with `INFISICAL_ENV_FILE`, then removes the temporary file.
+Keep the bootstrap passphrase in the human password vault and macOS Keychain.
 
 ## Safety Standard
 

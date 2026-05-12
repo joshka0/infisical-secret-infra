@@ -36,6 +36,9 @@ rules than this skill.
   replacement, local `~/.env`, and migrated file-like secrets.
 - Any secret-bearing file kept under `~/.vault` outside Infisical must be
   encrypted at rest.
+- The self-hosted Infisical bootstrap `.env` is bootstrap material. Encrypt it
+  with a passphrase recoverable outside Infisical, not only with a key stored in
+  Infisical.
 - Agent Vault, if installed, is for brokered HTTP access by AI agents. Agents
   should receive scoped proxy/session access, not raw API keys.
 - OS keychains or local secret managers are for bootstrap material such as
@@ -177,6 +180,19 @@ Operational rules:
   all of `~/.vault`.
 - The backup passphrase must be recoverable from a human password vault and must
   not live only inside Infisical.
+
+## Infisical Bootstrap Env
+
+Prefer this flow for self-hosted Infisical:
+
+```sh
+~/.vault/scripts/infisical-encrypt-bootstrap-env.sh
+~/.vault/scripts/infisical-compose-secure-env.sh up -d
+```
+
+The wrapper decrypts the encrypted bootstrap env to a private temporary file,
+runs Docker Compose with `INFISICAL_ENV_FILE`, and deletes the temporary file.
+Report only path/status/hash/key-count information.
 
 ## Final Response Pattern
 

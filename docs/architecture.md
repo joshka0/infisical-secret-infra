@@ -53,6 +53,28 @@ LOCAL_VAULT_FILE_ENCRYPTION_KEY
 The Infisical self-hosted backup passphrase is separate. It must be recoverable
 without Infisical, so it belongs in the human password vault and macOS Keychain.
 
+## Infisical Bootstrap Env
+
+The self-hosted Infisical service has one special secret boundary: the service
+`.env` is needed before Infisical is running. Treat it as bootstrap material.
+
+Recommended shape:
+
+```text
+real bootstrap env      -> created locally, never committed
+encrypted bootstrap env -> ~/.vault/staging/bootstrap-env/infisical-bootstrap.env.enc
+bootstrap passphrase    -> human password vault + OS keychain
+compose wrapper         -> decrypts to a private temp file, runs compose, deletes temp
+```
+
+Do not encrypt the Infisical bootstrap env only with
+`LOCAL_VAULT_FILE_ENCRYPTION_KEY` if that key lives in Infisical. That creates a
+cold-start loop: if Infisical is down and the plaintext env is gone, the env
+cannot be decrypted.
+
+Use the local vault file crypto format with an external bootstrap passphrase, or
+use an equivalent OS secret manager flow.
+
 ## Backups
 
 Nightly backup flow:

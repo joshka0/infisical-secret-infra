@@ -61,6 +61,7 @@ Required:
 docker
 node
 infisical
+openssl
 shasum or sha256sum
 tar
 ssh/scp, optional for remote backup upload
@@ -112,11 +113,20 @@ Create a real service `.env` manually. Do not commit it. Required values depend
 on your Infisical version and deployment, but typically include database,
 encryption, auth, Redis, and site URL settings.
 
-Start Infisical from the service directory:
+Encrypt the bootstrap env with a passphrase stored outside Infisical:
 
 ```sh
-cd "$HOME/services/infisical"
-docker compose up -d
+"$HOME/.vault/scripts/infisical-encrypt-bootstrap-env.sh"
+```
+
+On macOS this creates or updates a Keychain item named
+`infisical-bootstrap-env-passphrase`. Copy that passphrase into the human
+password vault. It must not live only inside Infisical.
+
+Start Infisical through the secure wrapper:
+
+```sh
+"$HOME/.vault/scripts/infisical-compose-secure-env.sh" up -d
 ```
 
 Verify the local UI:
@@ -160,6 +170,10 @@ rm /tmp/local-vault-file-encryption-key.txt
 ```
 
 Do not print the key.
+
+This key is for ordinary vault file encryption after Infisical is available. Do
+not use it as the only way to recover the Infisical service bootstrap `.env`.
+That would create a cold-start dependency loop.
 
 ## 8. Configure Infisical Backups
 
@@ -359,6 +373,8 @@ docs/checklists/repo-migration.md
 - [ ] Git repo remains private.
 - [ ] No real `.env` or backup archive is committed.
 - [ ] Infisical UI is reachable.
+- [ ] Bootstrap `.env` is encrypted outside Infisical.
+- [ ] Bootstrap env passphrase is in the human password vault.
 - [ ] Control directory is linked.
 - [ ] `LOCAL_VAULT_FILE_ENCRYPTION_KEY` exists in Infisical `/home`.
 - [ ] Backup passphrase is in the human password vault.

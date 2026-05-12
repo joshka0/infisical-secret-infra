@@ -32,7 +32,7 @@ The encrypted archive contains:
 
 - Postgres dump from `infisical-db`
 - Service `compose.yaml`
-- Service `.env`
+- Service bootstrap env metadata or encrypted bootstrap env
 - Redacted key-name list
 - Restore metadata
 
@@ -91,6 +91,19 @@ High-level restore flow:
 
 Do not restore into the live service without a separate restore plan and a fresh
 backup of the current state.
+
+## Bootstrap Env Recovery
+
+If the service plaintext `.env` is absent, recover through the encrypted
+bootstrap env:
+
+```sh
+~/.vault/scripts/infisical-compose-secure-env.sh up -d
+```
+
+The bootstrap passphrase must be available outside Infisical, usually from the
+human password vault and macOS Keychain. If both the plaintext env and the
+bootstrap passphrase are lost, the encrypted bootstrap env is not recoverable.
 
 ## Remote Transport
 

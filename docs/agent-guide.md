@@ -76,3 +76,12 @@ infisical run --env dev --path /repos/personal/example -- <command>
 - Only `*.tar.enc` and redacted `*.report.txt` leave the machine.
 - The backup passphrase must be copied into the password vault and must not be
   printed.
+
+## When Handling The Infisical Bootstrap Env
+
+- Do not commit or print the service `.env`.
+- Use `~/.vault/scripts/infisical-encrypt-bootstrap-env.sh` after intentional
+  service env changes.
+- Use `~/.vault/scripts/infisical-compose-secure-env.sh` for start/stop/logs.
+- Report only key counts, paths, hashes, and presence statuses.
+- Do not store the bootstrap passphrase only inside Infisical.
